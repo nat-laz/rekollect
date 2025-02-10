@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Table(name = "categories")
+@Table(name = "category")
 @Entity
 @Setter
 @Getter
@@ -15,11 +15,12 @@ public class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-incremented ID
     @Column(name = "category_id")
-    private Long categoryId;
+    private Integer categoryId;
 
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "category") // One category has many records
+    // One category has many records
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RecordEntity> records;
 }

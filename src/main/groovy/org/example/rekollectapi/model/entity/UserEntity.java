@@ -1,13 +1,14 @@
-package org.example.rekollectapi.models.entities;
+package org.example.rekollectapi.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "users") // "user" is a reserved SQL keyword
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class UserEntity {

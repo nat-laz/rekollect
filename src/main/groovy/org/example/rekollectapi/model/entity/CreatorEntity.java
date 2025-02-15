@@ -1,20 +1,21 @@
-package org.example.rekollectapi.models.entities;
+package org.example.rekollectapi.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "creator")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class CreatorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "creator_id")
-    private UUID creatorId;
+    private UUID id;
 
     @Column(nullable = false, unique = true)
     private String name;

@@ -1,8 +1,7 @@
-package org.example.rekollectapi.models.entities;
+package org.example.rekollectapi.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,6 +11,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "record")
+@NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
 public class RecordEntity {
@@ -37,7 +38,6 @@ public class RecordEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false) // Foreign key to category table
     private CategoryEntity category;
-
 
     @Column(name = "release_date")
     private LocalDate releaseDate;

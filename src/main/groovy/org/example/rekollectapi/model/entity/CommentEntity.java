@@ -1,8 +1,7 @@
-package org.example.rekollectapi.models.entities;
+package org.example.rekollectapi.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -10,6 +9,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "comment")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class CommentEntity {
@@ -17,7 +18,7 @@ public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "comment_id", updatable = false, nullable = false)
-    private UUID commentId;
+    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "record_id", nullable = false)

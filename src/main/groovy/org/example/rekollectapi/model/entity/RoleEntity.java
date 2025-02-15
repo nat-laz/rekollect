@@ -1,18 +1,19 @@
-package org.example.rekollectapi.models.entities;
+package org.example.rekollectapi.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "creator_role")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-incremented ID
     @Column(name = "role_id", updatable = false, nullable = false)
-    private Integer roleId;
+    private Integer id;
 
     @Column(nullable = false, unique = true)
     private String name;

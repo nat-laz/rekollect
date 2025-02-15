@@ -1,12 +1,13 @@
-package org.example.rekollectapi.models.entities;
+package org.example.rekollectapi.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import org.example.rekollectapi.models.ids.RecordCreatorId;
+import lombok.*;
+import org.example.rekollectapi.model.ids.RecordCreatorId;
 
 @Entity
 @Table(name = "record_creator")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class RecordCreatorEntity {

@@ -1,4 +1,4 @@
-package org.example.rekollectapi.models.ids;
+package org.example.rekollectapi.model.ids;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;

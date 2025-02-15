@@ -3,9 +3,6 @@ package org.example.rekollectapi.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
-
 @Entity
 @Table(name = "category")
 @NoArgsConstructor // Required by JPA

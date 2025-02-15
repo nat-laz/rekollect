@@ -1,14 +1,12 @@
 package org.example.rekollectapi.service.impl;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.example.rekollectapi.dto.request.CategoryRequestDTO;
 import org.example.rekollectapi.dto.response.CategoryResponseDTO;
 import org.example.rekollectapi.exceptions.BadRequestException;
 import org.example.rekollectapi.model.entity.CategoryEntity;
 import org.example.rekollectapi.repository.CategoryRepository;
 import org.example.rekollectapi.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

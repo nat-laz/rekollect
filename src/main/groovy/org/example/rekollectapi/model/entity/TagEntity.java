@@ -16,6 +16,6 @@ public class TagEntity {
     @Column(name = "tag_id")
     private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "tag_name", nullable = false, unique = true)
     private String name;
 }

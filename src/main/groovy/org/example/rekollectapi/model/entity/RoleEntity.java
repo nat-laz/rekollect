@@ -12,9 +12,9 @@ import lombok.*;
 public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-incremented ID
-    @Column(name = "role_id", updatable = false, nullable = false)
+    @Column(name = "role_id")
     private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "role_name", nullable = false, unique = true)
     private String name;
 }

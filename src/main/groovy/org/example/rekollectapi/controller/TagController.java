@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.rekollectapi.dto.request.TagRequestDTO;
 import org.example.rekollectapi.dto.response.TagResponseDTO;
-import org.example.rekollectapi.model.entity.TagEntity;
 import org.example.rekollectapi.service.TagService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -28,5 +28,5 @@ public class RecordCreatorEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("roleId")
     @JoinColumn(name = "role_id", nullable = false)
-    private RoleEntity role;
+    private CreatorRoleEntity role;
 }

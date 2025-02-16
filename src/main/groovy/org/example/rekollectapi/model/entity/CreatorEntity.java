@@ -6,7 +6,9 @@ import lombok.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "creator")
+@Table(name = "creator", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"creator_first_name", "creator_last_name"})
+})
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -17,9 +19,12 @@ public class CreatorEntity {
     @Column(name = "creator_id")
     private UUID id;
 
-    @Column(nullable = false, unique = true)
-    private String name;
+    @Column(name = "creator_first_name", nullable = false)
+    private String creatorFirstName;
 
-    @Column(columnDefinition = "TEXT")
-    private String bio;
+    @Column(name = "creator_last_name", nullable = false)
+    private String creatorLastName;
+
+    @Column(name = "creator_bio", columnDefinition = "TEXT")
+    private String creatorBio;
 }

@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RoleRequestDTO {
+public class CreatorRoleRequestDTO {
 
     @NotBlank(message = "Role name cannot be blank")
     @Size(min = 1, max = 255)

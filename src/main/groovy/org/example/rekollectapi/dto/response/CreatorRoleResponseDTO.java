@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class RoleResponseDTO {
+public class CreatorRoleResponseDTO {
 
     private Integer id;
     private String name;

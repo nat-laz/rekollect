@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-public class RoleEntity {
+public class CreatorRoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-incremented ID
     @Column(name = "role_id")

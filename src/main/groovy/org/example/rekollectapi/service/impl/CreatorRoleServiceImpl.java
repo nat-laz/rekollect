@@ -15,25 +15,11 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class CreatorRoleServiceImpl implements CreatorRoleService {
 
-    private final CreatorRoleRepository roleRepository;
+    private final CreatorRoleRepository creatorRoleRepository;
 
     @Override
-    public CreatorRoleResponseDTO createRole(CreatorRoleRequestDTO request) {
-        if (roleRepository.findByName(request.getName()).isPresent()) {
-            throw new BadRequestException("Role with name " + request.getName() + " already exists");
-        }
-
-        CreatorRoleEntity role = new CreatorRoleEntity();
-        role.setName(request.getName());
-        roleRepository.save(role);
-
-        return new CreatorRoleResponseDTO(role.getId(), role.getName());
-    }
-
-    @Override
-    public CreatorRoleResponseDTO getRoleById(Integer id) {
-        CreatorRoleEntity role = roleRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Role not found with ID: " + id));
-        return new CreatorRoleResponseDTO(role.getId(), role.getName());
+    public CreatorRoleEntity getOrCreateRole(String roleName) {
+        return creatorRoleRepository.findByRoleNameIgnoreCase(roleName)
+                .orElseGet(() -> creatorRoleRepository.save(new CreatorRoleEntity(null, roleName)));
     }
 }

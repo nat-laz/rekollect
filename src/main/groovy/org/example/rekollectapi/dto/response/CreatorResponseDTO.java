@@ -14,4 +14,5 @@ public class CreatorResponseDTO {
     private String creatorFirstName;
     private String creatorLastName;
     private String creatorBio;
+    private String creatorRole;
 }

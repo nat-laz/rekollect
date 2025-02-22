@@ -3,75 +3,71 @@ package org.example.rekollectapi.service.impl;
 import lombok.AllArgsConstructor;
 import org.example.rekollectapi.dto.request.CreatorRequestDTO;
 import org.example.rekollectapi.dto.response.CreatorResponseDTO;
-import org.example.rekollectapi.exceptions.ResourceNotFoundException;
 import org.example.rekollectapi.model.entity.CreatorEntity;
+import org.example.rekollectapi.model.entity.CreatorRoleEntity;
+import org.example.rekollectapi.model.entity.RecordCreatorEntity;
+import org.example.rekollectapi.model.entity.RecordEntity;
+import org.example.rekollectapi.model.ids.RecordCreatorId;
 import org.example.rekollectapi.repository.CreatorRepository;
+import org.example.rekollectapi.repository.RecordCreatorRepository;
+import org.example.rekollectapi.service.CreatorRoleService;
 import org.example.rekollectapi.service.CreatorService;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class CreatorServiceImpl implements CreatorService {
 
     private final CreatorRepository creatorRepository;
+    private final RecordCreatorRepository recordCreatorRepository;
+    private final CreatorRoleService creatorRoleService;
 
     @Override
-    public CreatorResponseDTO addCreator(CreatorRequestDTO request) {
+    public List<CreatorResponseDTO> processCreatorsAndRoles(List<CreatorRequestDTO> creatorRequests, RecordEntity record) {
+        List<CreatorEntity> creators = new ArrayList<>();
+        List<CreatorRoleEntity> roles = new ArrayList<>();
+        List<CreatorResponseDTO> creatorResponses = new ArrayList<>();
 
-        // Check if the creator already exists
-        Optional<CreatorEntity> existingCreator = creatorRepository
-                .findByCreatorFirstNameAndCreatorLastName(request.getCreatorFirstName(), request.getCreatorLastName());
+        for (CreatorRequestDTO creatorReq : creatorRequests) {
+            CreatorEntity creator = getOrCreateCreator(creatorReq);
+            CreatorRoleEntity role = creatorRoleService.getOrCreateRole(creatorReq.getCreatorRole());
 
-        if (existingCreator.isPresent()) {
-            throw new RuntimeException("Creator already exists!");
+            creators.add(creator);
+            roles.add(role);
         }
 
-        CreatorEntity creator = new CreatorEntity();
-        creator.setCreatorFirstName(request.getCreatorFirstName());
-        creator.setCreatorLastName(request.getCreatorLastName());
-        creator.setCreatorBio(request.getCreatorBio() == null || request.getCreatorBio().isBlank() ? null : request.getCreatorBio());
+        // Batch save relationships
+        List<RecordCreatorEntity> recordCreators = new ArrayList<>();
+        for (int i = 0; i < creators.size(); i++) {
+            recordCreators.add(new RecordCreatorEntity(
+                    new RecordCreatorId(record.getId(), creators.get(i).getId(), roles.get(i).getId()),
+                    record, creators.get(i), roles.get(i)
+            ));
 
+            creatorResponses.add(new CreatorResponseDTO(
+                    creators.get(i).getId(),
+                    creators.get(i).getCreatorFirstName(),
+                    creators.get(i).getCreatorLastName(),
+                    creators.get(i).getCreatorBio(),
+                    roles.get(i).getRoleName()
+            ));
+        }
+        // Batch insert
+        recordCreatorRepository.saveAll(recordCreators);
 
-        CreatorEntity savedCreator = creatorRepository.save(creator);
-
-        return new CreatorResponseDTO(
-                savedCreator.getId(),
-                savedCreator.getCreatorFirstName(),
-                savedCreator.getCreatorLastName(),
-                savedCreator.getCreatorBio()
-        );
+        return creatorResponses;
     }
 
     @Override
-    public CreatorResponseDTO updateCreator(UUID creatorId, CreatorRequestDTO request) {
-
-        // Find the existing creator
-        CreatorEntity creator = creatorRepository.findById(creatorId)
-                .orElseThrow(() -> new ResourceNotFoundException("Creator with ID " + creatorId + " not found."));
-
-        // Update only provided fields
-        if (request.getCreatorFirstName() != null && !request.getCreatorFirstName().isBlank()) {
-            creator.setCreatorFirstName(request.getCreatorFirstName());
-        }
-
-        if (request.getCreatorLastName() != null && !request.getCreatorLastName().isBlank()) {
-            creator.setCreatorLastName(request.getCreatorLastName());
-        }
-
-        if (request.getCreatorBio() != null && !request.getCreatorBio().isBlank()) {
-            creator.setCreatorBio(request.getCreatorBio());
-        }
-
-        CreatorEntity updatedCreator = creatorRepository.save(creator);
-
-        return new CreatorResponseDTO(
-                updatedCreator.getId(),
-                updatedCreator.getCreatorFirstName(),
-                updatedCreator.getCreatorLastName(),
-                updatedCreator.getCreatorBio()
-        );
+    public CreatorEntity getOrCreateCreator(CreatorRequestDTO creatorReq) {
+        return creatorRepository.findByCreatorFirstNameAndCreatorLastName(
+                        creatorReq.getCreatorFirstName(), creatorReq.getCreatorLastName())
+                .orElseGet(() -> creatorRepository.save(
+                        new CreatorEntity(null, creatorReq.getCreatorFirstName(), creatorReq.getCreatorLastName(), creatorReq.getCreatorBio())
+                ));
     }
+
 }

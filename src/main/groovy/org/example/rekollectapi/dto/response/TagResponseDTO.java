@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class TagResponseDTO {
-    private Integer id;
-    private String name;
+    private Long id;
+    private String tagName;
 }

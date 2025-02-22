@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CreatorRoleResponseDTO {
 
-    private Integer id;
+    private Long id;
     private String name;
 }

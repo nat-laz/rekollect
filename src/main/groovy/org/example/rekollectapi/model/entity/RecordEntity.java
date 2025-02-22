@@ -2,6 +2,8 @@ package org.example.rekollectapi.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,20 +21,20 @@ public class RecordEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID) // Generates  as a Universally Unique Identifier (UUID).
-    @Column(name = "record_id", updatable = false, nullable = false)
+    @Column(name = "record_id", updatable = false, nullable = false, unique = true)
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String title;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String description;
 
     @Column(name = "cover_image")
     private String coverImageUrl; // Use Google Drive URL
 
-    @Column(nullable = false)
-    private String description;
-
-    @Column
-    private String online_link;
+    @Column(name = "online_link")
+    private String onlineLink;
 
     // =========== relation between record and category ===========
     @ManyToOne(fetch = FetchType.LAZY)
@@ -42,9 +44,12 @@ public class RecordEntity {
     @Column(name = "release_date")
     private LocalDate releaseDate;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
 
+    @CreationTimestamp // No need for manual @PrePersist method
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;;
+
+    @UpdateTimestamp // No need for manual  @PreUpdate method
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
@@ -59,11 +64,11 @@ public class RecordEntity {
 
     // =========== relation between record and comments ===========
     @OneToMany(mappedBy = "record", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CommentEntity> comments;
+    private Set<CommentEntity> comments;
 
     // =========== relation between record and creator ===========
     @OneToMany(mappedBy = "record", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RecordCreatorEntity> creators;
+    private Set<RecordCreatorEntity> creators;
 
     // =========== relation between record and user ===========
     @ManyToOne(fetch = FetchType.LAZY)
@@ -71,16 +76,4 @@ public class RecordEntity {
     private UserEntity user;
 
 
-    // Called automatically by JPA when a new entity is being persisted for the first time.
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    // Called automatically by JPA when an existing entity is being updated.
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
 }

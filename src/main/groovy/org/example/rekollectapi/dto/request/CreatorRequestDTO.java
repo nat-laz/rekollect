@@ -17,6 +17,8 @@ public class CreatorRequestDTO {
     @Size(min = 1, max = 255)
     private String creatorLastName;
 
-
     private String creatorBio;
+
+    @NotBlank(message = "Role is required")
+    private String creatorRole;
 }

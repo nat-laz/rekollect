@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CreatorRoleRepository extends JpaRepository<CreatorRoleEntity, Integer> {
+public interface CreatorRoleRepository extends JpaRepository<CreatorRoleEntity, Long> {
 
-    Optional<CreatorRoleEntity> findByName(String name);
+    Optional<CreatorRoleEntity> findByRoleNameIgnoreCase(String name);
 
 }

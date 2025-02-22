@@ -14,8 +14,8 @@ public class TagEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremented ID
     @Column(name = "tag_id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "tag_name", nullable = false, unique = true)
-    private String name;
+    private String tagName;
 }

@@ -1,5 +1,6 @@
 package org.example.rekollectapi.model.ids;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,12 +11,15 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Embeddable
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RecordCreatorId implements Serializable {
+@Getter
+@Setter
+public class RecordTagId implements Serializable {
+
+    @Column(name = "record_id")
     private UUID recordId;
-    private UUID creatorId;
-    private Long creatorRoleId;
+
+    @Column(name = "tag_id")
+    private Long tagId;
 }

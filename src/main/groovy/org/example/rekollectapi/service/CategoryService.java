@@ -1,15 +1,8 @@
 package org.example.rekollectapi.service;
 
-
-import org.example.rekollectapi.dto.request.CategoryRequestDTO;
-import org.example.rekollectapi.dto.response.CategoryResponseDTO;
-
-import java.util.List;
-
+import org.example.rekollectapi.model.entity.CategoryEntity;
 
 public interface CategoryService {
 
-    CategoryResponseDTO createCategory(CategoryRequestDTO request);
-
-    List<CategoryResponseDTO> getAllCategories();
+    CategoryEntity getOrCreateCategory(String categoryName);
 }

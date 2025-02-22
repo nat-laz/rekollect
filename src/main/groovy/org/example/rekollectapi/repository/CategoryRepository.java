@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<CategoryEntity, Integer> {
+public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
 
     // Optional<T> = represents a container object which may or may not contain a non-null value.
-    Optional<CategoryEntity> findByName(String name);
+    Optional<CategoryEntity> findByCategoryNameIgnoreCase(String name);
 
     List<CategoryEntity> findAll();
 

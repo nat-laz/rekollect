@@ -10,6 +10,7 @@ import org.example.rekollectapi.model.entity.*;
 import org.example.rekollectapi.repository.*;
 import org.example.rekollectapi.service.*;
 import org.springframework.stereotype.Service;
+import org.example.rekollectapi.exceptions.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,7 +29,14 @@ public class RecordServiceImpl implements RecordService {
     public RecordResponseDTO createRecord(RecordRequestDTO request, UUID authenticatedUserId) {
 
         UserEntity user = userService.getUser(authenticatedUserId);
+        if (user == null) {
+            throw new ValidationException("Invalid user ID: " + authenticatedUserId);
+        }
+
         CategoryEntity category = categoryService.getOrCreateCategory(request.getCategoryName());
+        if (category == null) {
+            throw new ValidationException("Category could not be created: " + request.getCategoryName());
+        }
 
         RecordEntity record = new RecordEntity();
         record.setTitle(request.getTitle());

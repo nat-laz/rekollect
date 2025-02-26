@@ -9,11 +9,11 @@ import lombok.Setter;
 @Setter
 public class CreatorRequestDTO {
 
-    @NotBlank(message = "Tag name cannot be blank")
+    @NotBlank(message = "First name cannot be blank")
     @Size(min = 1, max = 255)
     private String creatorFirstName;
 
-    @NotBlank(message = "Tag name cannot be blank")
+    @NotBlank(message = "Last name cannot be blank")
     @Size(min = 1, max = 255)
     private String creatorLastName;
 

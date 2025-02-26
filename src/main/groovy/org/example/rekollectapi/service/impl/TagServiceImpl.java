@@ -2,6 +2,7 @@ package org.example.rekollectapi.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.example.rekollectapi.dto.response.TagResponseDTO;
+import org.example.rekollectapi.exceptions.ValidationException;
 import org.example.rekollectapi.model.entity.RecordEntity;
 import org.example.rekollectapi.model.entity.TagEntity;
 import org.example.rekollectapi.repository.TagRepository;
@@ -19,14 +20,16 @@ public class TagServiceImpl implements TagService {
     private final TagRepository tagRepository;
 
     @Override
-    public List<TagResponseDTO> getAllTags() {
-        return tagRepository.findAll().stream()
-                .map(tag -> new TagResponseDTO(tag.getId(), tag.getTagName()))
-                .toList();
-    }
-
-    @Override
     public List<TagResponseDTO> processTags(List<String> tagNames, RecordEntity record) {
+        if (tagNames == null || tagNames.isEmpty()) {
+            throw new ValidationException("At least one tag is required.");
+        }
+
+        // Trim tag names to prevent accidental duplicates
+        tagNames = tagNames.stream()
+                .map(String::trim)
+                .filter(tagName -> !tagName.isEmpty())
+                .collect(Collectors.toList());
 
         // Fetch existing tags in one batch query
         List<TagEntity> existingTags = tagRepository.findAllByTagNameIn(tagNames);
@@ -45,7 +48,6 @@ public class TagServiceImpl implements TagService {
             existingTags.addAll(newTags);
         }
 
-        // Assign tags to the record
         record.getTags().clear();
         record.getTags().addAll(existingTags);
 

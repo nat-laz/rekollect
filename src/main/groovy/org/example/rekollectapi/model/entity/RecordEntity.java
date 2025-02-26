@@ -62,7 +62,6 @@ public class RecordEntity {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<TagEntity> tags = new HashSet<>();
-    ;
 
     // =========== relation between record and comments ===========
     @OneToMany(mappedBy = "record", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

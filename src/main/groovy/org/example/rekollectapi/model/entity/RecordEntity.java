@@ -7,7 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -47,20 +47,22 @@ public class RecordEntity {
 
     @CreationTimestamp // No need for manual @PrePersist method
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;;
+    private LocalDateTime createdAt;
+    ;
 
     @UpdateTimestamp // No need for manual  @PreUpdate method
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     // =========== relation between record and tag ===========
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "record_tags",
             joinColumns = @JoinColumn(name = "record_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    private Set<TagEntity> tags;
+    private Set<TagEntity> tags = new HashSet<>();
+    ;
 
     // =========== relation between record and comments ===========
     @OneToMany(mappedBy = "record", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -68,7 +70,7 @@ public class RecordEntity {
 
     // =========== relation between record and creator ===========
     @OneToMany(mappedBy = "record", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<RecordCreatorEntity> creators;
+    private Set<RecordCreatorRoleEntity> creators;
 
     // =========== relation between record and user ===========
     @ManyToOne(fetch = FetchType.LAZY)

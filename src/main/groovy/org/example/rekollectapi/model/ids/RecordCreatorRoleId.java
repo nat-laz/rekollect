@@ -14,7 +14,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RecordCreatorId implements Serializable {
+public class RecordCreatorRoleId implements Serializable {
     private UUID recordId;
     private UUID creatorId;
     private Long creatorRoleId;

@@ -2,18 +2,18 @@ package org.example.rekollectapi.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.rekollectapi.model.ids.RecordCreatorId;
+import org.example.rekollectapi.model.ids.RecordCreatorRoleId;
 
 @Entity
-@Table(name = "record_creator")
+@Table(name = "record_creator_role")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class RecordCreatorEntity {
+public class RecordCreatorRoleEntity {
 
     @EmbeddedId // Composite Key
-    private RecordCreatorId id;
+    private RecordCreatorRoleId id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("recordId")

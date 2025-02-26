@@ -5,11 +5,11 @@ import org.example.rekollectapi.dto.request.CreatorRequestDTO;
 import org.example.rekollectapi.dto.response.CreatorResponseDTO;
 import org.example.rekollectapi.model.entity.CreatorEntity;
 import org.example.rekollectapi.model.entity.CreatorRoleEntity;
-import org.example.rekollectapi.model.entity.RecordCreatorEntity;
+import org.example.rekollectapi.model.entity.RecordCreatorRoleEntity;
 import org.example.rekollectapi.model.entity.RecordEntity;
-import org.example.rekollectapi.model.ids.RecordCreatorId;
+import org.example.rekollectapi.model.ids.RecordCreatorRoleId;
 import org.example.rekollectapi.repository.CreatorRepository;
-import org.example.rekollectapi.repository.RecordCreatorRepository;
+import org.example.rekollectapi.repository.RecordCreatorRoleRepository;
 import org.example.rekollectapi.service.CreatorRoleService;
 import org.example.rekollectapi.service.CreatorService;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ import java.util.List;
 public class CreatorServiceImpl implements CreatorService {
 
     private final CreatorRepository creatorRepository;
-    private final RecordCreatorRepository recordCreatorRepository;
+    private final RecordCreatorRoleRepository recordCreatorRepository;
     private final CreatorRoleService creatorRoleService;
 
     @Override
@@ -40,10 +40,10 @@ public class CreatorServiceImpl implements CreatorService {
         }
 
         // Batch save relationships
-        List<RecordCreatorEntity> recordCreators = new ArrayList<>();
+        List<RecordCreatorRoleEntity> recordCreators = new ArrayList<>();
         for (int i = 0; i < creators.size(); i++) {
-            recordCreators.add(new RecordCreatorEntity(
-                    new RecordCreatorId(record.getId(), creators.get(i).getId(), roles.get(i).getId()),
+            recordCreators.add(new RecordCreatorRoleEntity(
+                    new RecordCreatorRoleId(record.getId(), creators.get(i).getId(), roles.get(i).getId()),
                     record, creators.get(i), roles.get(i)
             ));
 

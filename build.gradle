@@ -41,12 +41,13 @@ dependencies {
     testImplementation('com.h2database:h2')
 }
 
-tasks.named('test', Test) {
+tasks.named('test') {
     useJUnitPlatform()
-
-    maxHeapSize = '1G'
-
-    testLogging {
-        events "passed"
+    doFirst {
+        def mockitoAgent = configurations.testRuntimeClasspath.files.find { it.name.contains("mockito-core") }
+        if (mockitoAgent) {
+            jvmArgs "-javaagent:" + mockitoAgent.absolutePath
+        }
+        jvmArgs "-Xshare:off" // Disables class data sharing to prevent warning
     }
 }

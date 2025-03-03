@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.List;
+import java.util.Set;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -66,7 +67,7 @@ class TagRepositoryTest {
         TagEntity savedTag2 = tagRepository.save(tag2);
 
         // Act
-        List<TagEntity> savedTags = tagRepository.findAllByTagNameIn(List.of(savedTag1.getTagName(), savedTag2.getTagName()));
+        List<TagEntity> savedTags = tagRepository.findAllByTagNameIn(Set.of(savedTag1.getTagName(), savedTag2.getTagName()));
 
         // Assert
         Assertions.assertThat(savedTags).isNotNull();
@@ -102,7 +103,7 @@ class TagRepositoryTest {
     public void TagRepository_FindAllByTagNameIn_ReturnEmptyList_WhenTagDoesNotExist() {
 
         // Act
-        List<TagEntity> savedTags = tagRepository.findAllByTagNameIn(List.of("non-existent tag"));
+        List<TagEntity> savedTags = tagRepository.findAllByTagNameIn(Set.of("non-existent tag"));
 
         // Assert
         Assertions.assertThat(savedTags).isNotNull();

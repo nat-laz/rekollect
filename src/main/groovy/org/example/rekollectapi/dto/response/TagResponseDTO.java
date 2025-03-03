@@ -1,13 +1,14 @@
 package org.example.rekollectapi.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class TagResponseDTO {
     private Long id;
     private String tagName;
+
 }

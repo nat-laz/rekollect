@@ -25,3 +25,6 @@
 #### Special Naming Convention in Spring Data JPA
 
 - ```findByNameIgnoreCase(String name)``` (Case-insensitive match) → ```SELECT * FROM category WHERE LOWER(category_name) = LOWER('Movies') LIMIT 1;```
+
+### Testing
+- ```Mockito.anyList()``` is a wildcard matcher that matches any ```List<?>``` argument passed to ```saveAll()```, regardless of its contents.

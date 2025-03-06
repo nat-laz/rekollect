@@ -26,4 +26,9 @@ public class RecordController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(recordService.createRecord(request, authenticatedUserId));
     }
+
+    @GetMapping("/{recordId}")
+    public ResponseEntity<RecordResponseDTO> getRecord(@PathVariable("recordId") UUID recordId) {
+        return ResponseEntity.ok(recordService.getRecordById(recordId));
+    }
 }

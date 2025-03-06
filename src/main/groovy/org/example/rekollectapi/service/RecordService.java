@@ -8,4 +8,6 @@ import java.util.UUID;
 public interface RecordService {
 
     RecordResponseDTO createRecord(RecordRequestDTO recordRequestDTO, UUID authenticatedUserId);
+
+    RecordResponseDTO getRecordById(UUID recordId);
 }

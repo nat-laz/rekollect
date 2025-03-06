@@ -11,7 +11,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @Builder
-public class CreatorResponseDTO {
+public class CreatorWithRoleResponseDTO {
     private UUID id;
     private String creatorFirstName;
     private String creatorLastName;

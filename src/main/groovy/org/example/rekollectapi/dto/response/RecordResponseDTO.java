@@ -19,6 +19,6 @@ public class RecordResponseDTO {
     private String coverImageUrl;
     private String onlineLink;
     private String category;
-    private List<CreatorResponseDTO> creators;
+    private List<CreatorWithRoleResponseDTO> creators;
     private List<TagResponseDTO> tags;
 }

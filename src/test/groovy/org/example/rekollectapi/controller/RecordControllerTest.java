@@ -3,7 +3,7 @@ package org.example.rekollectapi.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.rekollectapi.dto.request.CreatorRequestDTO;
 import org.example.rekollectapi.dto.request.RecordRequestDTO;
-import org.example.rekollectapi.dto.response.CreatorResponseDTO;
+import org.example.rekollectapi.dto.response.CreatorWithRoleResponseDTO;
 import org.example.rekollectapi.dto.response.RecordResponseDTO;
 import org.example.rekollectapi.dto.response.TagResponseDTO;
 import org.example.rekollectapi.service.impl.RecordServiceImpl;
@@ -46,7 +46,7 @@ class RecordControllerTest {
 
     private RecordRequestDTO recordRequestDTO;
     private RecordResponseDTO recordResponseDTO;
-    private CreatorResponseDTO creatorResponseDTO;
+    private CreatorWithRoleResponseDTO creatorResponseDTO;
     private CreatorRequestDTO creatorRequestDTO;
     private TagResponseDTO tagResponseDTO;
 
@@ -66,7 +66,7 @@ class RecordControllerTest {
                 .tags(List.of("Tag1", "Tag2"))
                 .build();
 
-        creatorResponseDTO = CreatorResponseDTO.builder()
+        creatorResponseDTO = CreatorWithRoleResponseDTO.builder()
                 .id(UUID.fromString("a4085153-a1ee-4fec-812a-549939305b6a"))
                 .creatorFirstName("First Name")
                 .creatorLastName("Last Name")

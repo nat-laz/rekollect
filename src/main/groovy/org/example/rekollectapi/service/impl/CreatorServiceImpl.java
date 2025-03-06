@@ -2,7 +2,7 @@ package org.example.rekollectapi.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.example.rekollectapi.dto.request.CreatorRequestDTO;
-import org.example.rekollectapi.dto.response.CreatorResponseDTO;
+import org.example.rekollectapi.dto.response.CreatorWithRoleResponseDTO;
 import org.example.rekollectapi.exceptions.ValidationException;
 import org.example.rekollectapi.model.entity.CreatorEntity;
 import org.example.rekollectapi.model.entity.CreatorRoleEntity;
@@ -27,14 +27,14 @@ public class CreatorServiceImpl implements CreatorService {
     private final CreatorRoleService creatorRoleService;
 
     @Override
-    public List<CreatorResponseDTO> processCreatorsAndRoles(List<CreatorRequestDTO> creatorRequests, RecordEntity record) {
+    public List<CreatorWithRoleResponseDTO> processCreatorsAndRoles(List<CreatorRequestDTO> creatorRequests, RecordEntity record) {
         if (creatorRequests == null || creatorRequests.isEmpty()) {
             throw new ValidationException("At least one creator is required.");
         }
 
         List<CreatorEntity> creators = new ArrayList<>();
         List<CreatorRoleEntity> roles = new ArrayList<>();
-        List<CreatorResponseDTO> creatorResponses = new ArrayList<>();
+        List<CreatorWithRoleResponseDTO> creatorResponses = new ArrayList<>();
         List<RecordCreatorRoleEntity> recordCreators = new ArrayList<>();
 
         for (CreatorRequestDTO creatorReq : creatorRequests) {
@@ -55,7 +55,7 @@ public class CreatorServiceImpl implements CreatorService {
 
             recordCreators.add(new RecordCreatorRoleEntity(recordCreatorRoleId, record, creator, role));
 
-            creatorResponses.add(new CreatorResponseDTO(
+            creatorResponses.add(new CreatorWithRoleResponseDTO(
                     creator.getId(),
                     creator.getCreatorFirstName(),
                     creator.getCreatorLastName(),

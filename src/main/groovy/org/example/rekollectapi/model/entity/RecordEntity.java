@@ -2,6 +2,7 @@ package org.example.rekollectapi.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -17,6 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Setter
 @Getter
+@SuperBuilder
 public class RecordEntity {
 
     @Id

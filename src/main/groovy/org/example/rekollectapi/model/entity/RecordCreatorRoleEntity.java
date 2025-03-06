@@ -10,6 +10,7 @@ import org.example.rekollectapi.model.ids.RecordCreatorRoleId;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class RecordCreatorRoleEntity {
 
     @EmbeddedId // Composite Key

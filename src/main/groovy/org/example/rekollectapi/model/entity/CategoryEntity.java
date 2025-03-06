@@ -9,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Setter
 @Getter
+@Builder
 public class CategoryEntity {
 
     @Id

@@ -9,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class CreatorRoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-incremented ID

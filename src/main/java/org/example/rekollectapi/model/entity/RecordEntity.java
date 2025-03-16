@@ -6,8 +6,8 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -46,15 +46,13 @@ public class RecordEntity {
     @Column(name = "release_date")
     private LocalDate releaseDate;
 
-
     @CreationTimestamp // No need for manual @PrePersist method
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-    ;
+    private Instant createdAt;
 
     @UpdateTimestamp // No need for manual  @PreUpdate method
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
     // =========== relation between record and tag ===========
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -63,6 +61,7 @@ public class RecordEntity {
             joinColumns = @JoinColumn(name = "record_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
+    @Builder.Default
     private Set<TagEntity> tags = new HashSet<>();
 
     // =========== relation between record and comments ===========

@@ -12,6 +12,7 @@ import org.example.rekollectapi.service.*;
 import org.springframework.stereotype.Service;
 import org.example.rekollectapi.exceptions.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -27,6 +28,7 @@ public class RecordServiceImpl implements RecordService {
     private final CreatorService creatorService;
     private final TagService tagService;
     private final RecordCreatorRoleRepository recordCreatorRoleRepository;
+    private final ElasticsearchRecordService elasticsearchRecordService;
 
     @Override
     public RecordResponseDTO createRecord(RecordRequestDTO request, UUID authenticatedUserId) {
@@ -47,12 +49,25 @@ public class RecordServiceImpl implements RecordService {
         record.setCoverImageUrl(request.getCoverImageUrl());
         record.setOnlineLink(request.getOnlineLink());
         record.setCategory(category);
+
+        if (request.getReleaseDate() != null && !request.getReleaseDate().isEmpty()) {
+            record.setReleaseDate(LocalDate.parse(request.getReleaseDate()));
+        }
+
         record.setUser(user);
-        recordRepository.save(record);
+
+        record = recordRepository.saveAndFlush(record);
+
+
+        record = recordRepository.findById(record.getId()).orElseThrow(
+                () -> new RuntimeException("Record not found after save")
+        );
 
         List<CreatorWithRoleResponseDTO> creatorResponses = creatorService.processCreatorsAndRoles(request.getCreators(), record);
-
         List<TagResponseDTO> tagResponses = tagService.processTags(request.getTags(), record);
+
+        // Save to Elasticsearch too
+        elasticsearchRecordService.saveRecordToElasticsearch(record, creatorResponses, tagResponses);
 
         return new RecordResponseDTO(
                 record.getId(),
@@ -61,17 +76,20 @@ public class RecordServiceImpl implements RecordService {
                 record.getCoverImageUrl(),
                 record.getOnlineLink(),
                 category.getCategoryName(),
+                record.getReleaseDate() != null ? record.getReleaseDate().toString() : null,
+                record.getCreatedAt(),
+                record.getUpdatedAt(),
                 creatorResponses,
                 tagResponses
         );
     }
+
 
     @Override
     public RecordResponseDTO getRecordById(UUID recordId) {
         RecordEntity record = recordRepository.findById(recordId)
                 .orElseThrow(() -> new ResourceNotFoundException("Record not found with ID: " + recordId));
 
-        // Fetch creators with their roles
         List<CreatorWithRoleResponseDTO> creatorWithRoles = recordCreatorRoleRepository.findByRecordId(recordId)
                 .stream()
                 .map(recordCreatorRole -> new CreatorWithRoleResponseDTO(
@@ -83,7 +101,6 @@ public class RecordServiceImpl implements RecordService {
                 ))
                 .collect(Collectors.toList());
 
-        // Fetch tags
         List<TagResponseDTO> tags = record.getTags()
                 .stream()
                 .map(tag -> new TagResponseDTO(tag.getId(), tag.getTagName()))
@@ -96,6 +113,9 @@ public class RecordServiceImpl implements RecordService {
                 record.getCoverImageUrl(),
                 record.getOnlineLink(),
                 record.getCategory().getCategoryName(),
+                record.getReleaseDate() != null ? record.getReleaseDate().toString() : null,
+                record.getCreatedAt(),
+                record.getUpdatedAt(),
                 creatorWithRoles,
                 tags
         );

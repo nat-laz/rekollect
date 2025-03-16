@@ -21,6 +21,8 @@ public class RecordSearchController {
         return elasticsearchRecordService.searchRecords(query);
     }
 
+
+
     @GetMapping("/sync")
     public String syncDatabaseWithElasticsearch() {
         try {

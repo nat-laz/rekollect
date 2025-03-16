@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface RecordCreatorRoleRepository extends JpaRepository<RecordCreatorRoleEntity, RecordCreatorRoleId>  {
+public interface RecordCreatorRoleRepository extends JpaRepository<RecordCreatorRoleEntity, RecordCreatorRoleId> {
 
     List<RecordCreatorRoleEntity> findByRecordId(UUID recordId);
+
+    void deleteByRecordId(UUID recordId);
 }

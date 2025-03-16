@@ -3,6 +3,7 @@ package org.example.rekollectapi.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.rekollectapi.dto.request.RecordRequestDTO;
+import org.example.rekollectapi.dto.request.RecordUpdateDTO;
 import org.example.rekollectapi.dto.response.RecordResponseDTO;
 import org.example.rekollectapi.service.RecordService;
 import org.springframework.http.HttpStatus;
@@ -31,4 +32,17 @@ public class RecordController {
     public ResponseEntity<RecordResponseDTO> getRecord(@PathVariable("recordId") UUID recordId) {
         return ResponseEntity.ok(recordService.getRecordById(recordId));
     }
+
+
+    // TODO:
+    // @RequestHeader(value = "X-User-Id", required = false) UUID authenticatedUserId
+    @PatchMapping("/{recordId}")
+    public ResponseEntity<RecordResponseDTO> updateRecord(
+            @PathVariable("recordId") UUID recordId,
+            @RequestBody RecordUpdateDTO request
+           ) {
+
+        return ResponseEntity.ok(recordService.updateRecord(recordId, request));
+    }
+
 }

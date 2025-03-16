@@ -13,8 +13,6 @@
 - ```@CreationTimestamp & @UpdateTimestamp```  → Automatically handles timestamps when a record is created or updated (
   No need for manual ```@PrePersist``` and ```@PreUpdate``` methods.)
 
-
-
 #### Lombok annotations:
 
 - ```@RequiredArgsConstructor``` → automatically generates a constructor with required arguments, ensures dependencies
@@ -24,7 +22,11 @@
 
 #### Special Naming Convention in Spring Data JPA
 
-- ```findByNameIgnoreCase(String name)``` (Case-insensitive match) → ```SELECT * FROM category WHERE LOWER(category_name) = LOWER('Movies') LIMIT 1;```
+- ```findByNameIgnoreCase(String name)``` (Case-insensitive match) →
+  ```SELECT * FROM category WHERE LOWER(category_name) = LOWER('Movies') LIMIT 1;```
 
 ### Testing
-- ```Mockito.anyList()``` is a wildcard matcher that matches any ```List<?>``` argument passed to ```saveAll()```, regardless of its contents.
+
+- ```Mockito.anyList()``` is a wildcard matcher that matches any ```List<?>``` argument passed to ```saveAll()```,
+  regardless of its contents.
+

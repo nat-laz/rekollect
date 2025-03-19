@@ -33,7 +33,6 @@ public class RecordIndex {
     @Field(type = FieldType.Date, format = DateFormat.date)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private String releaseDate;
-    ;
 
     @Field(type = FieldType.Date, format = DateFormat.date_optional_time)
     @JsonSerialize(using = InstantToStringSerializer.class)
@@ -45,9 +44,9 @@ public class RecordIndex {
     @JsonDeserialize(using = StringToInstantDeserializer.class)
     private Instant updatedAt;
 
-    @Field(type = FieldType.Keyword)
-    private List<String> tags;
-
     @Field(type = FieldType.Nested) // nested object for creators
     private List<CreatorIndex> creators;
+
+    @Field(type = FieldType.Keyword)
+    private List<String> tags;
 }

@@ -50,21 +50,32 @@ ___
 
 ```shell
 curl -X PUT "http://localhost:9200/records" -H "Content-Type: application/json" -d '{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "lowercase_analyzer": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["lowercase"]
+        }
+      }
+    }
+  },
   "mappings": {
     "properties": {
       "title": { "type": "text" },
       "description": { "type": "text" },
-      "category": { "type": "keyword" },
+      "category": { "type": "text", "analyzer": "lowercase_analyzer" },
       "releaseDate": { "type": "date", "format": "yyyy-MM-dd" },
       "createdAt": { "type": "date", "format": "date_optional_time" },
       "updatedAt": { "type": "date", "format": "date_optional_time" },
-      "tags": { "type": "keyword" },
+      "tags": { "type": "text", "analyzer": "lowercase_analyzer" },
       "creators": {
         "type": "nested",
         "properties": {
           "firstName": { "type": "text" },
           "lastName": { "type": "text" },
-          "role": { "type": "keyword" }
+          "role": { "type": "text" }
         }
       }
     }

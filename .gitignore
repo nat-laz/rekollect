@@ -38,3 +38,4 @@ out/
 
 # Ignore secrets file
 src/main/resources/secrets.properties
+.env
